@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - FINNHUB_API_KEY=${FINNHUB_API_KEY}
+      - FMP_API_KEY=${FMP_API_KEY}
+    volumes:
+      - .:/app
+
+  streamlit:
+    image: python:3.11-slim
+    working_dir: /app
+    command: streamlit run frontend/dashboard.py
+    ports:
+      - "8501:8501"
+    depends_on:
+      - api
+    volumes:
+      - .:/app
+    environment:
+      - PYTHONUNBUFFERED=1
