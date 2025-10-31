@@ -8,8 +8,11 @@ from datetime import datetime
 import os
 from apscheduler.schedulers.background import BackgroundScheduler
 from dotenv import load_dotenv
+from pydantic import BaseModel
+from typing import List
 import json
-
+class TickerList(BaseModel):
+    tickers: List[str]
 load_dotenv()
 
 app = FastAPI(
@@ -70,8 +73,9 @@ async def fetch_company(ticker: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/api/v1/companies/batch")
-async def fetch_companies(tickers: list):
+@app.post("/api/v1/analyze")
+async def analyze_companies(ticker_list: TickerList):
+    tickers = ticker_list.tickers
     """Fetch data for multiple companies"""
     try:
         companies_data = []
@@ -207,4 +211,5 @@ if __name__ == "__main__":
         port=int(os.getenv("PORT", 8000)),
         reload=os.getenv("DEBUG", False)
     )
+
 
