@@ -3,7 +3,7 @@
 # ============================================================
 
 from fastapi import FastAPI, BackgroundTasks, HTTPException
-from fastapi.cors import CORSMiddleware
+from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
 import os
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -207,3 +207,4 @@ if __name__ == "__main__":
         port=int(os.getenv("PORT", 8000)),
         reload=os.getenv("DEBUG", False)
     )
+
