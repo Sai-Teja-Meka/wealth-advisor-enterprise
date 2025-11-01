@@ -120,7 +120,8 @@ async def analyze_companies(tickers: list):
 # ============================================================
 
 @app.post("/api/v1/advise")
-async def generate_advice(tickers: list):
+async def generate_advice(ticker_list: TickerList):
+    tickers = ticker_list.tickers
     """Generate investment advice"""
     try:
         companies_data = []
@@ -211,5 +212,6 @@ if __name__ == "__main__":
         port=int(os.getenv("PORT", 8000)),
         reload=os.getenv("DEBUG", False)
     )
+
 
 
